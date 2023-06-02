@@ -65,4 +65,4 @@ def api_jenis_faskes():
         return jsonify({'message': 'Gagal mengambil data.'}), 500
 
 if __name__ == '__main__':
-    app.run()
+    app.run(host='0.0.0.0')
