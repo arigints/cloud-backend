@@ -64,5 +64,24 @@ def api_jenis_faskes():
     else:
         return jsonify({'message': 'Gagal mengambil data.'}), 500
 
+@app.route('/api/provinsifaskes', methods=['GET'])
+def api_provinsi_faskes():
+    data = get_all_data()
+    if data:
+        faskes_count = {}
+        for row in data:
+            provinsi = row[2]
+            jenis_faskes = row[6]
+            if provinsi in faskes_count:
+                if jenis_faskes in faskes_count[provinsi]:
+                    faskes_count[provinsi][jenis_faskes] += 1
+                else:
+                    faskes_count[provinsi][jenis_faskes] = 1
+            else:
+                faskes_count[provinsi] = {jenis_faskes: 1}
+        return jsonify(faskes_count)
+    else:
+        return jsonify({'message': 'Gagal mengambil data.'}), 500
+    
 if __name__ == '__main__':
     app.run(host='0.0.0.0')
