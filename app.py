@@ -70,7 +70,7 @@ def api_provinsi_faskes():
     if data:
         faskes_count = {}
         for row in data:
-            provinsi = row[2]
+            provinsi = row[1]
             jenis_faskes = row[6]
             if provinsi in faskes_count:
                 if jenis_faskes in faskes_count[provinsi]:
