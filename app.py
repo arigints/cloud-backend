@@ -5,14 +5,14 @@ import mysql.connector
 app = Flask(__name__)
 CORS(app)
 
-# Fungsi untuk terhubung ke database MySQL
+# Function untuk terhubung ke database MySQL
 def connect_to_database():
     try:
         conn = mysql.connector.connect(
             host='52.139.171.12',
             port=3306,
-            user='root',  # Ganti dengan username database Anda
-            password='mysql',  # Ganti dengan password database Anda
+            user='root', 
+            password='mysql',
             database='faskes'
         )
         return conn
@@ -44,7 +44,6 @@ def api_data():
                 'Provinsi': row[1],
                 'Lokasi': row[5],
                 'Jenis Faskes': row[6]
-                # Tambahkan kolom lain sesuai dengan struktur tabel Anda
             })
         return jsonify(result)
     else:
@@ -66,6 +65,7 @@ def api_jenis_faskes():
     else:
         return jsonify({'message': 'Gagal mengambil data.'}), 500
 
+# Mengatur route API untuk menampilkan kategori jenis Faskes dan jumlahnya setiap provinsi
 @app.route('/api/provinsifaskes', methods=['GET'])
 def api_provinsi_faskes():
     data = get_all_data()
@@ -85,6 +85,7 @@ def api_provinsi_faskes():
     else:
         return jsonify({'message': 'Gagal mengambil data.'}), 500
 
+# Mengatur route API untuk menghapus data pada table
 @app.route('/api/delete', methods=['DELETE'])
 def api_delete_data():
     conn = connect_to_database()
@@ -99,7 +100,7 @@ def api_delete_data():
             return jsonify({'message': 'Gagal menghapus data.'}), 500
     else:
         return jsonify({'message': 'Gagal terhubung ke database.'}), 500
-    
+
 # Mengatur route API untuk menjalankan perintah LOAD DATA LOCAL INFILE
 @app.route('/api/loaddata', methods=['POST'])
 def api_load_data():
