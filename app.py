@@ -125,4 +125,4 @@ def check_directory():
     return f"Current Directory: {current_directory}"
         
 if __name__ == '__main__':
-    app.run(host='0.0.0.0'
+    app.run(host='0.0.0.0')
