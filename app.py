@@ -99,6 +99,24 @@ def api_delete_data():
             return jsonify({'message': 'Gagal menghapus data.'}), 500
     else:
         return jsonify({'message': 'Gagal terhubung ke database.'}), 500
+    
+# Mengatur route API untuk menjalankan perintah LOAD DATA LOCAL INFILE
+@app.route('/api/loaddata', methods=['POST'])
+def api_load_data():
+    conn = connect_to_database()
+    if conn:
+        try:
+            cursor = conn.cursor()
+            #file_path = '/var/lib/mysql/data.csv'  # Ganti dengan path file CSV Anda
+            query = """LOAD DATA LOCAL INFILE '/var/lib/mysql/data.csv' INTO TABLE data FIELDS TERMINATED BY ',' ENCLOSED BY '"' LINES TERMINATED BY '\n' IGNORE 1 ROWS"""
+            cursor.execute(query)
+            conn.commit()
+            return jsonify({'message': 'Data berhasil dimuat.'}), 200
+        except mysql.connector.Error as err:
+            print("Gagal memuat data: ", err)
+            return jsonify({'message': 'Gagal memuat data.'}), 500
+    else:
+        return jsonify({'message': 'Gagal terhubung ke database.'}), 500
         
 if __name__ == '__main__':
     app.run(host='0.0.0.0')
