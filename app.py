@@ -84,6 +84,21 @@ def api_provinsi_faskes():
         return jsonify(faskes_count)
     else:
         return jsonify({'message': 'Gagal mengambil data.'}), 500
-    
+
+@app.route('/api/delete', methods=['DELETE'])
+def api_delete_data():
+    conn = connect_to_database()
+    if conn:
+        try:
+            cursor = conn.cursor()
+            cursor.execute("DELETE FROM faskes.data")
+            conn.commit()
+            return jsonify({'message': 'Data berhasil dihapus.'}), 200
+        except mysql.connector.Error as err:
+            print("Gagal menghapus data: ", err)
+            return jsonify({'message': 'Gagal menghapus data.'}), 500
+    else:
+        return jsonify({'message': 'Gagal terhubung ke database.'}), 500
+        
 if __name__ == '__main__':
     app.run(host='0.0.0.0')
