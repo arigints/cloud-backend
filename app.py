@@ -107,14 +107,17 @@ def api_load_data():
     if conn:
         try:
             cursor = conn.cursor()
-            file_path = '/var/lib/mysql/data.csv'  # Ganti dengan path file CSV Anda
-            query = """LOAD DATA LOCAL INFILE '{}' INTO TABLE data FIELDS TERMINATED BY ',' ENCLOSED BY '"' LINES TERMINATED BY '\n' IGNORE 1 ROWS"""
+            file_path = '/var/lib/mysql/data.csv' 
+            query = "LOAD DATA LOCAL INFILE '{}' INTO TABLE data FIELDS TERMINATED BY ',' ENCLOSED BY '\"' LINES TERMINATED BY '\n' IGNORE 1 ROWS".format(file_path)
             cursor.execute(query)
             conn.commit()
             return jsonify({'message': 'Data berhasil dimuat.'}), 200
         except mysql.connector.Error as err:
             print("Gagal memuat data: ", err)
             return jsonify({'message': 'Gagal memuat data.'}), 500
+        finally:
+            cursor.close()
+            conn.close()
     else:
         return jsonify({'message': 'Gagal terhubung ke database.'}), 500
     
