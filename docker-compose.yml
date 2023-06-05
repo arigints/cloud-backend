@@ -5,14 +5,15 @@ services:
     image: mysql:5.7
     container_name: db
     environment:
-      MYSQL_ROOT_PASSWORD: mysql
+      MYSQL_ROOT_PASSWORD:
       MYSQL_DATABASE: faskes
       MYSQL_USER: mysql
       MYSQL_PASSWORD: mysql
     ports:
       - "3306:3306"
     volumes:
-      - dbdata:/var/lib/mysql
+      - /home/cloud/dbdata:/var/lib/mysql
+      - /home/cloud/data:/root
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
     container_name: pma

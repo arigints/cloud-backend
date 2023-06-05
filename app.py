@@ -107,7 +107,7 @@ def api_load_data():
     if conn:
         try:
             cursor = conn.cursor()
-            file_path = '/var/lib/mysql/data.csv' 
+            file_path = 'data.csv'
             query = "LOAD DATA LOCAL INFILE '{}' INTO TABLE data FIELDS TERMINATED BY ',' ENCLOSED BY '\"' LINES TERMINATED BY '\n' IGNORE 1 ROWS".format(file_path)
             cursor.execute(query)
             conn.commit()
@@ -120,12 +120,6 @@ def api_load_data():
             conn.close()
     else:
         return jsonify({'message': 'Gagal terhubung ke database.'}), 500
-    
-@app.route('/api/check-directory')
-def check_directory():
-    import os
-    current_directory = os.getcwd()
-    return f"Current Directory: {current_directory}"
-        
+
 if __name__ == '__main__':
     app.run(host='0.0.0.0')
