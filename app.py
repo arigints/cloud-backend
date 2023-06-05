@@ -107,8 +107,8 @@ def api_load_data():
     if conn:
         try:
             cursor = conn.cursor()
-            #file_path = '/var/lib/mysql/data.csv'  # Ganti dengan path file CSV Anda
-            query = """LOAD DATA LOCAL INFILE '/var/lib/mysql/data.csv' INTO TABLE data FIELDS TERMINATED BY ',' ENCLOSED BY '"' LINES TERMINATED BY '\n' IGNORE 1 ROWS"""
+            file_path = '/var/lib/mysql/data.csv'  # Ganti dengan path file CSV Anda
+            query = """LOAD DATA LOCAL INFILE '{}' INTO TABLE data FIELDS TERMINATED BY ',' ENCLOSED BY '"' LINES TERMINATED BY '\n' IGNORE 1 ROWS"""
             cursor.execute(query)
             conn.commit()
             return jsonify({'message': 'Data berhasil dimuat.'}), 200
@@ -117,6 +117,12 @@ def api_load_data():
             return jsonify({'message': 'Gagal memuat data.'}), 500
     else:
         return jsonify({'message': 'Gagal terhubung ke database.'}), 500
+    
+@app.route('/api/check-directory')
+def check_directory():
+    import os
+    current_directory = os.getcwd()
+    return f"Current Directory: {current_directory}"
         
 if __name__ == '__main__':
-    app.run(host='0.0.0.0')
+    app.run(host='0.0.0.0'
